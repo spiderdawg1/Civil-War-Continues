@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Unfinished Revolution: An Interactive History</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+       .nav-link { transition: all 0.2s ease-in-out; }
+       .nav-link.active {
+            color: #991b1b; /* red-800 */
+            transform: scale(1.1);
+            border-left-color: #991b1b; /* red-800 */
+        }
+       .perspective-container { perspective: 1000px; }
+       .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.8s; transform-style: preserve-3d; }
+       .flip-card-container.flipped.flip-card-inner { transform: rotateY(180deg); }
+       .flip-card-front,.flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1.5rem; }
+       .flip-card-back { transform: rotateY(180deg); }
+       .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 50vh; }
+        @media (min-width: 768px) {.chart-container { height: 400px; } }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <nav class="fixed top-1/2 -translate-y-1/2 left-0 z-50 hidden md:block">
+        <div class="bg-white/50 backdrop-blur-sm rounded-r-lg p-2 shadow-lg">
+            <ul id="side-nav" class="space-y-4">
+                <li><a href="#intro" class="nav-link block p-2 border-l-4 border-transparent text-stone-500 hover:text-red-800" title="Introduction"><span class="text-xl">●</span></a></li>
+                <li><a href="#reconstruction" class="nav-link block p-2 border-l-4 border-transparent text-stone-500 hover:text-red-800" title="Reconstruction"><span class="text-xl">●</span></a></li>
+                <li><a href="#lost-cause" class="nav-link block p-2 border-l-4 border-transparent text-stone-500 hover:text-red-800" title="The Lost Cause"><span class="text-xl">●</span></a></li>
+                <li><a href="#modern-echoes" class="nav-link block p-2 border-l-4 border-transparent text-stone-500 hover:text-red-800" title="Modern Echoes"><span class="text-xl">●</span></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="w-full">
+        <header id="intro" class="min-h-screen flex flex-col items-center justify-center bg-white text-center p-4">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl text-red-900 mb-4">An Unfinished Revolution</h1>
+                <p class="text-lg md:text-xl text-stone-600 mb-8">The American Civil War did not end at Appomattox. It transformed. This is the story of an enduring conflict over the nation's identity—a struggle that continues to shape America today.</p>
+                <a href="#reconstruction" class="inline-block bg-red-800 text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-red-900 transition-colors">
+                    Begin the Story
+                </a>
+            </div>
+        </header>
+
+        <section id="reconstruction" class="py-20 px-4 bg-stone-100">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl mb-4">The War After the War</h2>
+                <p class="text-lg text-stone-600 mb-12">The Union's military victory (1865-1877) was met not with peace, but with a violent counter-revolution. This section explores the conflict between the promise of a "Second American Founding" through constitutional amendments and the brutal reality of a white supremacist insurgency that sought to reclaim power through terror.</p>
+            </div>
+            <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl text-blue-900 mb-4 text-center">📜 The Promise of Equality</h3>
+                    <p class="text-stone-600 mb-4">Radical Republicans in Congress sought to remake the nation on a foundation of genuine equality, passing three transformative constitutional amendments.</p>
+                    <ul class="space-y-3">
+                        <li class="p-3 bg-blue-50 rounded"><strong>13th Amendment (1865):</strong> Formally abolished slavery throughout the United States.</li>
+                        <li class="p-3 bg-blue-50 rounded"><strong>14th Amendment (1868):</strong> Granted citizenship and equal civil and legal rights to all persons born in the U.S.</li>
+                        <li class="p-3 bg-blue-50 rounded"><strong>15th Amendment (1870):</strong> Prohibited the denial of the right to vote based on race, color, or previous servitude.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-2xl text-red-900 mb-4 text-center">⚔️ The Reality of Terror</h3>
+                    <p class="text-stone-600 mb-4">This promise was attacked by paramilitary groups like the Ku Klux Klan, which used strategic violence to overthrow Republican governments and terrorize Black citizens.</p>
+                    <ul class="space-y-3">
+                        <li class="p-3 bg-red-50 rounded"><strong>Targeted Violence:</strong> Assassinated Black leaders and white allies, burned schools, and intimidated voters.</li>
+                        <li class="p-3 bg-red-50 rounded"><strong>Massacres:</strong> The Colfax Massacre (1873) saw the slaughter of up to 150 Black men, a brutal message against resistance.</li>
+                        <li class="p-3 bg-red-50 rounded"><strong>Legal Defeat:</strong> *U.S. v. Cruikshank* (1876) stripped the federal government's power to prosecute private racial terror, gutting enforcement acts.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="max-w-5xl mx-auto mt-16">
+                 <h3 class="text-3xl text-center mb-4">The Result: Political Erasure</h3>
+                 <p class="text-lg text-stone-600 mb-8 text-center">The insurgency's success is starkly visible in voter data. Through violence and intimidation, Black political power was systematically destroyed.</p>
+                 <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <div class="chart-container">
+                        <canvas id="voterSuppressionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="lost-cause" class="py-20 px-4 bg-white">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl mb-4">Forging the Myth</h2>
+                <p class="text-lg text-stone-600 mb-12">To justify their violent counter-revolution, white Southerners created the "Lost Cause"—a powerful myth that rewrote the history of the Civil War. This section explores the core tenets of this ideology and how it was cemented in American culture to uphold a new racial caste system.</p>
+            </div>
+            <div class="max-w-6xl mx-auto">
+                <h3 class="text-3xl text-center mb-8">Myth vs. Reality: The Lost Cause Tenets</h3>
+                <div id="lost-cause-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+            </div>
+            <div class="max-w-5xl mx-auto mt-16">
+                <h3 class="text-3xl text-center mb-4">Propaganda in Stone</h3>
+                <p class="text-lg text-stone-600 mb-8 text-center">The dedication of Confederate monuments was not about remembrance. The timing reveals their true purpose: to assert white supremacy during periods of intense racial conflict.</p>
+                 <div class="bg-stone-50 p-4 rounded-lg shadow-lg">
+                    <div class="chart-container">
+                        <canvas id="monumentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="modern-echoes" class="py-20 px-4 bg-stone-100">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl mb-4">Echoes in 2025</h2>
+                <p class="text-lg text-stone-600 mb-12">The ideological framework of the Lost Cause did not vanish. It continues to resonate in modern political movements, shaping rhetoric, symbols, and a dangerous acceptance of political violence. This section draws the direct parallels between the past and present.</p>
+            </div>
+            <div class="max-w-6xl mx-auto">
+                <div id="ideology-comparison" class="bg-white rounded-lg shadow-lg overflow-hidden">
+                </div>
+            </div>
+             <div class="max-w-5xl mx-auto mt-16">
+                <h3 class="text-3xl text-center mb-4">An Impending Conflict?</h3>
+                <p class="text-lg text-stone-600 mb-8 text-center">This rhetoric has consequences. Fueled by narratives of a "stolen" country and election, a significant portion of the population now views political violence as a possibility, if not a necessity.</p>
+                 <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <div class="chart-container">
+                        <canvas id="civilWarBeliefChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="max-w-5xl mx-auto mt-16">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-3xl text-center mb-4">✨ Deconstruct the Rhetoric</h3>
+                    <p class="text-lg text-stone-600 mb-6 text-center">Enter a modern political statement or headline below. Our historical AI will analyze it for echoes of "Lost Cause" ideology.</p>
+                    <textarea id="rhetoric-input" class="w-full p-3 border border-stone-300 rounded-lg mb-4" rows="3" placeholder="e.g., 'They are trying to erase our heritage.'"></textarea>
+                    <div class="text-center">
+                        <button id="analyze-rhetoric-btn" class="bg-red-800 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-red-900 transition-colors">Analyze Statement</button>
+                    </div>
+                    <div id="rhetoric-loading" class="text-center mt-4" style="display: none;">
+                        <p class="text-stone-600">Analyzing...</p>
+                    </div>
+                    <div id="rhetoric-result" class="mt-6 p-4 bg-stone-50 rounded-lg border border-stone-200 min-h-[50px]"></div>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="bg-stone-800 text-white py-12 px-4 text-center">
+             <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl mb-4">The Revolution Remains Unfinished</h2>
+                <p class="text-stone-300">The Civil War is not a settled historical event. The revanchist ideology, the grievance-based politics, and the rejection of democratic legitimacy that defined the post-1865 insurgency find their modern expression today. The core conflicts over racial hierarchy and federal authority remain the most volatile issues in American life.</p>
+                 <div class="max-w-4xl mx-auto mt-12 border-t border-stone-600 pt-8">
+                    <h3 class="text-2xl md:text-3xl mb-4 text-center">✨ Ask an AI Historian</h3>
+                    <p class="text-stone-300 mb-6 text-center">Have a question about Reconstruction, the Lost Cause, or their modern echoes? Ask our AI historian, trained on the contents of this analysis.</p>
+                    <textarea id="historian-input" class="w-full p-3 border bg-stone-700 border-stone-600 rounded-lg mb-4 text-white" rows="2" placeholder="e.g., 'Why was U.S. v. Cruikshank so important?'"></textarea>
+                    <div class="text-center">
+                        <button id="ask-historian-btn" class="bg-stone-100 text-stone-800 font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-white transition-colors">Ask Question</button>
+                    </div>
+                    <div id="historian-loading" class="text-center mt-4" style="display: none;">
+                        <p class="text-stone-300">Consulting the archives...</p>
+                    </div>
+                    <div id="historian-result" class="mt-6 p-4 bg-stone-900/50 rounded-lg border border-stone-700 min-h-[50px]"></div>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const sections = document.querySelectorAll('main section, main header');
+            const navLinks = document.querySelectorAll('#side-nav a');
+
+            const activateNavLink = (id) => {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        activateNavLink(entry.target.id);
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px' });
+
+            sections.forEach(section => observer.observe(section));
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+
+            const voterSuppressionData = {
+                labels:,
+                datasets:,
+                    backgroundColor: ['rgba(59, 130, 246, 0.6)', 'rgba(220, 38, 38, 0.6)'],
+                    borderColor: ['rgba(59, 130, 246, 1)', 'rgba(220, 38, 38, 1)'],
+                    borderWidth: 1
+                }]
+            };
+            const voterSuppressionCtx = document.getElementById('voterSuppressionChart').getContext('2d');
+            new Chart(voterSuppressionCtx, {
+                type: 'bar',
+                data: voterSuppressionData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Effect of Disenfranchisement in Louisiana', font: {size: 16} },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label |
+| '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed.y!== null) {
+                                        label += new Intl.NumberFormat('en-US').format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) { return new Intl.NumberFormat('en-US').format(value); }
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            const lostCauseData =;
+
+            const cardsContainer = document.getElementById('lost-cause-cards');
+            lostCauseData.forEach(item => {
+                const cardWrapper = document.createElement('div');
+                cardWrapper.className = 'perspective-container h-64';
+                cardWrapper.innerHTML = `
+                    <div class="flip-card-container w-full h-full cursor-pointer rounded-lg shadow-lg">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front bg-stone-200 text-stone-800 rounded-lg">
+                                <h4 class="text-xl font-semibold text-center">${item.myth}</h4>
+                            </div>
+                            <div class="flip-card-back bg-blue-900 text-white rounded-lg">
+                                <p class="text-center">${item.reality}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                cardsContainer.appendChild(cardWrapper);
+
+                cardWrapper.querySelector('.flip-card-container').addEventListener('click', function() {
+                    this.classList.toggle('flipped');
+                });
+            });
+
+            const monumentData = {
+                labels: ['1865-1899', '1900-1909', '1910-1919', '1920-1929', '1930-1949', '1950-1969', '1970-Present'],
+                datasets:,
+                    fill: true,
+                    backgroundColor: 'rgba(220, 38, 38, 0.2)',
+                    borderColor: 'rgba(220, 38, 38, 1)',
+                    tension: 0.4
+                }]
+            };
+            const monumentCtx = document.getElementById('monumentChart').getContext('2d');
+            new Chart(monumentCtx, {
+                type: 'line',
+                data: monumentData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {display: false},
+                        title: { display: true, text: 'Confederate Monument Dedications Over Time', font: {size: 16} },
+                         tooltip: {
+                            callbacks: {
+                                title: (context) => {
+                                    const index = context.dataIndex;
+                                    let note = '';
+                                    if(index === 1 |
+| index === 2) note = ' (Height of Jim Crow)';
+                                    if(index === 5) note = ' (Civil Rights Era)';
+                                    return context.label + note;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+
+            const ideologyComparisonData =;
+            
+            const comparisonContainer = document.getElementById('ideology-comparison');
+            let comparisonHTML = `
+                <div class="grid grid-cols-5 text-center font-bold">
+                    <div class="col-span-2 p-4 bg-stone-200">The Lost Cause</div>
+                    <div class="p-4 bg-red-800 text-white flex items-center justify-center">Theme</div>
+                    <div class="col-span-2 p-4 bg-stone-200">The MAGA Movement</div>
+                </div>
+            `;
+            ideologyComparisonData.forEach(item => {
+                comparisonHTML += `
+                    <div class="grid grid-cols-5 border-t border-stone-200">
+                        <div class="col-span-2 p-4 text-center flex items-center justify-center">${item.lost_cause}</div>
+                        <div class="p-4 bg-red-100 text-red-900 font-semibold flex items-center justify-center text-center">${item.theme}</div>
+                        <div class="col-span-2 p-4 text-center flex items-center justify-center">${item.maga}</div>
+                    </div>
+                `;
+            });
+            comparisonContainer.innerHTML = comparisonHTML;
+
+            const civilWarBeliefData = {
+                labels:,
+                datasets:,
+                    backgroundColor: ['rgba(220, 38, 38, 0.7)', 'rgba(59, 130, 246, 0.5)'],
+                    borderColor: ['rgba(220, 38, 38, 1)', 'rgba(59, 130, 246, 1)'],
+                    borderWidth: 1
+                }]
+            };
+            const civilWarBeliefCtx = document.getElementById('civilWarBeliefChart').getContext('2d');
+            new Chart(civilWarBeliefCtx, {
+                type: 'doughnut',
+                data: civilWarBeliefData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' },
+                        title: { display: true, text: 'Belief in Impending U.S. Civil War (2022)', font: { size: 16 } }
+                    }
+                }
+            });
+
+            // --- Gemini API Integration ---
+            async function callGemini(prompt, resultElement, loadingElement) {
+                loadingElement.style.display = 'block';
+                resultElement.innerHTML = '';
+
+                // The API call now goes to our own secure function
+                const apiUrl = `/.netlify/functions/gemini-proxy`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        // Send the prompt in the body of the request
+                        body: JSON.stringify({ prompt: prompt })
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error |
+| `HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    let html = result.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                    html = html.replace(/\n/g, '<br>');
+                    
+                    resultElement.innerHTML = `<p class="text-stone-700">${html}</p>`;
+                    if (resultElement.id === 'historian-result') {
+                        resultElement.querySelector('p').classList.remove('text-stone-700');
+                        resultElement.querySelector('p').classList.add('text-stone-300');
+                    }
+
+                } catch (error) {
+                    console.error("API call failed:", error);
+                    resultElement.innerHTML = `<p class="text-red-600">An error occurred: ${error.message}. Please check the console for details.</p>`;
+                } finally {
+                    loadingElement.style.display = 'none';
+                }
+            }
+
+            const analyzeRhetoricBtn = document.getElementById('analyze-rhetoric-btn');
+            analyzeRhetoricBtn.addEventListener('click', () => {
+                const userInput = document.getElementById('rhetoric-input').value;
+                if (!userInput.trim()) {
+                    document.getElementById('rhetoric-result').innerHTML = '<p class="text-red-600">Please enter a statement to analyze.</p>';
+                    return;
+                }
+                const prompt = `You are a historical analyst specializing in American political rhetoric. Your expertise is in identifying how language used after the Civil War, particularly "Lost Cause" ideology, resurfaces in modern political discourse. Analyze the following text for any themes, rhetorical devices, or arguments that echo the "Lost Cause". Explain the parallels clearly and concisely, referencing specific "Lost Cause" tenets (like 'states' rights,' 'demonized opponents,' 'lost golden age') where applicable. Analyze this text: "${userInput}"`;
+                
+                const resultElement = document.getElementById('rhetoric-result');
+                const loadingElement = document.getElementById('rhetoric-loading');
+                callGemini(prompt, resultElement, loadingElement);
+            });
+
+            const askHistorianBtn = document.getElementById('ask-historian-btn');
+            askHistorianBtn.addEventListener('click', () => {
+                const userInput = document.getElementById('historian-input').value;
+                if (!userInput.trim()) {
+                    document.getElementById('historian-result').innerHTML = '<p class="text-yellow-400">Please enter a question.</p>';
+                    return;
+                }
+                const prompt = `You are an expert AI historian specializing in the American Civil War's aftermath (1865-present), with a focus on Reconstruction, the "Lost Cause" ideology, and its modern legacy as presented in the "Unfinished Revolution" analysis. Based ONLY on this historical context, answer the user's question. Your answer should be factual, concise, and directly address the user's query within the scope of the analysis. Do not speculate or discuss topics outside this framework. User Question: "${userInput}"`;
+
+                const resultElement = document.getElementById('historian-result');
+                const loadingElement = document.getElementById('historian-loading');
+                callGemini(prompt, resultElement, loadingElement);
+            });
+        });
+    </script>
+</body>
+</html>
